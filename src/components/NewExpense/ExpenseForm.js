@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
   // 3번의 state 사용
   const [enteredTitle, setEnteredTitle] = useState('');
   const [enteredAmount, setEnteredAmount] = useState('');
@@ -44,12 +44,33 @@ const ExpenseForm = () => {
     
   };
 
+//form이 submit 될 때마다 실행되는 funciton
+const  submitHandler = (event) => {
+  event.preventDefault(); //현재 로드된 페이지에 머물게 만든다.
+  //서버에게 요청을 보내지 않기 때문에 js로 컨트롤 할 수 있다.
+
+  const expenseData ={
+    title : enteredTitle,
+    amount : enteredAmount,
+    date : new Date(enteredDate)
+  }; //입력된 모든 데이터를 결합한다. 
+
+
+  props.onSaveExpenseData(expenseData);
+  setEnteredTitle('');
+  setEnteredAmount('');
+  setEnteredDate('');
+}
+
+
+
+
   return (
-    <form className="">
+    <form onSubmit={submitHandler}>
       <div className="new-expense__controls">
         <div className="new-expense__control">
           <label>Title</label>
-          <input type="text" onChange={titleChangeHandler} />
+          <input type="text" value={enteredTitle} onChange={titleChangeHandler} />
         </div>
         <div className="new-expense__control">
           <label>Amount</label>
@@ -57,6 +78,7 @@ const ExpenseForm = () => {
             type="number"
             min="0.01"
             step="0.01"
+            value={enteredAmount}
             onChange={amountChangeHandler}
           />
         </div>
@@ -66,6 +88,7 @@ const ExpenseForm = () => {
             type="date"
             min="2019-01-01"
             max="2022-12-31"
+            value={enteredDate}
             onChange={dateChangeHandler}
           />
         </div>
