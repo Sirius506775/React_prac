@@ -1,6 +1,7 @@
 import React,{ useState } from 'react'
 import Card from "../UI/Card";
 import ExpenseDate from "./ExpenseDate";
+import ExpensesFilter from './ExpenseFilter';
 import "./ExpenseItem.css";
 
 const ExpenseItem = (props) => {
@@ -15,6 +16,7 @@ const ExpenseItem = (props) => {
   return (
     // React에서 class는 예약어이기 때문에 속성값을 줄 때는 className을 사용
     <Card className="expense-item"> 
+      <ExpensesFilter></ExpensesFilter>
       <ExpenseDate date={props.date} />
       <div className="expense-item__description">
         <h2>{title}</h2>
